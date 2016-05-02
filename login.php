@@ -3,15 +3,16 @@
 //関数の読み込み
 require_once(__DIR__ . '/config.php');
 
+
 //ログイン周りの処理をまとめる
-$fbLogin = new Myapp\FacebookLogin();
+$fbLogin = new MyApp\FacebookLogin();
 
 //インスタンスのログインメソッドを呼び出す
-try{
-    $fbLogin->login();
+try {
+  $fbLogin->login();
 } catch (Exception $e) {
-    echo $e->getMessage();
-    exit;
+  echo $e->getMessage();
+  exit;
 }
 
 

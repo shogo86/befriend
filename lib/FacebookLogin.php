@@ -1,33 +1,90 @@
 <?php
 
-namespace Myapp;
+namespace MyApp;
 
-//classの作成
 class FacebookLogin {
-        //プライベートプロパティ
-        private $_fb;
-        
-        //インスタンスの作成
-        public function __construct() {
-            $this->_fb = new \Facebook\Facebook([
-                'app_id' => APP_ID,
-                'app_secret' => APP_SECRET,
-                'default_graph_version' => APP_VERSION,
-            ]);
+    private $_fb;
+
+    public function __construct() {
+        $this->_fb = new \Facebook\Facebook([
+            'app_id' => APP_ID,
+            'app_secret' => APP_SECRET,
+            'default_graph_version' => APP_VERSION,
+        ]);
+    }
+
+  public function isLoggedIn() {
+      return isset($_SESSION['me']) && !empty($_SESSION['me']);
+  }
+
+  //ログインボタンを押したときの処理    
+  public function login() {
+      if ($this->isLoggedIn()) {
+          goHome();
+      }
+
+      //facebookログインに飛ばす
+      $helper = $this->_fb->getRedirectLoginHelper();
+
+      // get access token
+      try {
+        $accessToken = $helper->getAccessToken();
+        } catch (\Facebook\Exception\FacebookResponseException $e) {
+        echo 'Response Error: ' . $e->getMessage();
+        exit;
+        } catch (\Facebook\Exception\FacebookSDKException $e) {
+        echo 'SDK Error: ' . $e->getMessage();
+        exit;
         }
+
+      //アクセストークンが取得できている場合の処理
+      if (isset($accessToken)) {
+        // save user
+        // var_dump($accessToken);
         
-        public function login(){
-            //facebookログインのページに飛ばす
-            $helper = $this->_fb->getRedirectLoginHelper();
-            
-            //facebookログイン画面のURLの生成を行う
-            //CALLBACK_URLはconfigで管理する
-            $loginUrl = $helper->getLoginUrl(CALLBACK_URL);
-            header('location: ' . $loginUrl);
-            exit;
+        //accessTokenを有効期間の長いものに入れ替える
+        if (!$accessToken->isLongLived()) {
+            try {
+                //accessTokenを入れ替える
+                $accessToken = $this->_fb->getOAuth2Client()->getLongLivedAccessToken($accessToken);
+                //例外の場合にメッセージ表示
+                } catch (\Facebook\Exception\FacebookSDKException $e) {
+                echo 'LongLived Access Token Error: ' . $e->getMessage();
+                exit;
+            }
         }
-        
-        
+          $this->_save($accessToken);
+          goHome();
+          //キャンセルが押された場合にホーム場面に飛ばす
+        } elseif ($helper->getError()) {
+          goHome();
+        } else {
+          //permissionの設定
+          $permissions = ['email', 'user_posts '];
+          $loginUrl = $helper->getLoginUrl(CALLBACK_URL, $permissions);
+          //ログイン画面に飛ばす
+          header('Location: ' . $loginUrl);
+        }
+        exit;
+  }
+
+    private function _save($accessToken) {
+        // get user info
+        $fb = new Facebook($accessToken);
+        $userNode = $fb->getUserNode();
+        // var_dump($userNode); exit;
+
+        // save user
+        $user = new User();
+        $me = $user->save($accessToken, $userNode);
+        // var_dump($me);
+        // exit;
+
+        // login
+        //セッションハイジャック対策
+        session_regenerate_id(true);
+        $_SESSION['me'] = $me;
+    }
 }
 
 ?>

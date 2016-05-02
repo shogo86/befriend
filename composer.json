@@ -2,9 +2,9 @@
   "require" : {
     "facebook/php-sdk-v4" : "~5.0"
   },
-    "autoload": {
-        "psr-4": {
-            "Myapp\\": "lib/"
-        }
+  "autoload": {
+    "psr-4": {
+      "MyApp\\": "lib/"
     }
+  }
 }

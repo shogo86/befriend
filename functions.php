@@ -2,8 +2,14 @@
 
 //エスケープする関数
 function h($s) {
-    return htmlspecialchars($s, ENT,QUOTES, 'utf-8');
+    return htmlspecialchars($s, ENT_QUOTES, 'utf-8');
     }
+
+//ホーム画面へ飛ばす関数
+function goHome() {
+  header('Location: http://' . $_SERVER['HTTP_HOST']);
+  exit;
+}
 
 
 //性別の関数（日本語表示）
