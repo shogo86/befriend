@@ -7,7 +7,7 @@ function h($s) {
 
 //ホーム画面へ飛ばす関数
 function goHome() {
-  header('Location: http://' . $_SERVER['HTTP_HOST']);
+  header('Location: http://' . $_SERVER['HTTP_HOST']. '/graduation/toppage.php');
   exit;
 }
 

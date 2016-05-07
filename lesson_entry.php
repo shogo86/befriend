@@ -1,21 +1,29 @@
 <?php
-//自作関数の読み込み
-require_once('function/function.php');
 
-session_start();
-session_regenerate_id();
-if(isset($_SESSION['login'])==false)
-{
-    print 'ログインされていません。　<br />';
-    print '<a href="toppage.php">ログイン画面へ</a>';
-    exit();
-}
-else
-{
-    print 'ようこそ';
-    print $_SESSION['name'];
-    print '様';
+require_once(__DIR__ . '/config.php');
+
+$fbLogin = new MyApp\FacebookLogin();
+
+
+//ログイン状態かどうか
+if ($fbLogin->isLoggedIn()) {
+    //id,name,linkを取得する
+    $me = $_SESSION['me'];
     
+    //emailを取得する
+    $fb = new MyApp\Facebook($me->fb_access_token);
+    $userNode = $fb->getUserNode();
+    
+    //IDを変数に入れる
+    $fb_user_id = $me->fb_user_id;
+    
+    //投稿情報を取得する
+    $posts = $fb->getPosts();
+    
+    //CSRF対策
+    //セッションにTokenを仕込む
+    MyApp\Token::create();
+
 }
 
 ?>
@@ -38,17 +46,24 @@ else
 
         <section class="contact" id="contact">
             <h2 class="heading">レッスン登録</h2>
-            <form class="contact-form" method="post" action="lesson_entry_check.php">
-                <input type="text" name="title" placeholder="レッスン名">
-                <input type="datetime-local" name="starttime" step="3600">
-                <select name="time">
-                    <option value="0">レッスン時間を選んでください</option>
-                    <option value="1">30分</option>
-                    <option value="2">1時間</option>
-                    <option value="3">1時間30分</option>
-                    <option value="4">2時間</option>
+            <form class="contact-form" method="post" action="lesson_entry_done.php">
+                <input type="date" name="day" min="2016-05-01" required>
+                <select name="time" required>
+                    <option value="">レッスン時間を選んでください</option>
+                    <option value="1">8:00-9:00</option>
+                    <option value="2">9:00-10:00</option>
+                    <option value="3">10:00-11:00</option>
+                    <option value="4">11:00-12:00</option>
                 </select>
-                <input type="text" name="location" placeholder="場所">
+                <select name="state" required>
+                    <option value="">都道府県を選択してください</option>
+                    <option value="1">東京</option>
+                    <option value="2">埼玉</option>
+                    <option value="3">千葉</option>
+                    <option value="4">神奈川</option>
+                </select>
+                <input type="text" name="city" placeholder="市区町村を入力してください。" required>
+                <input type="text" name="street" placeholder="詳細住所を入力してください。" required>
                 <textarea name="detail" rows="5" cols="40" placeholder="詳細の記入をしてください"></textarea>
                 <input type="submit" value="SEND">
             </form>

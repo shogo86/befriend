@@ -1,36 +1,55 @@
 <?php
-session_start();
-session_regenerate_id();
-$id=$_SESSION['id'];
-$main=$_SESSION['main'];
-$sub=$_SESSION['sub'];
 
-//自作関数の読み込み
-require_once('function/function.php');
+require_once(__DIR__ . '/config.php');
 
-if(isset($_SESSION['login'])==false)
-{
-    print 'ログインされていません。　<br />';
-    print '<a href="toppage.php">ログイン画面へ</a>';
-    exit();
+$fbLogin = new MyApp\FacebookLogin();
+
+
+//ログイン状態かどうか
+if ($fbLogin->isLoggedIn()) {
+    //id,name,linkを取得する
+    $me = $_SESSION['me'];
+    
+    //emailを取得する
+    $fb = new MyApp\Facebook($me->fb_access_token);
+    $userNode = $fb->getUserNode();
+    
+    //IDを変数に入れる
+    $fb_user_id = $me->fb_user_id;
+    
+    //投稿情報を取得する
+    $posts = $fb->getPosts();
+    
+    //CSRF対策
+    //セッションにTokenを仕込む
+    MyApp\Token::create();
+
 }
-else
-{
-    print 'ようこそ';
-    print $_SESSION['name'];
-    print '様';
-}
 
-//2. DB文字コードを指定（固定）
-$stmt = $pdo->query('SET NAMES utf8');
+$sql ='SELECT 
+       lesson_entry.fb_user_id,
+       lesson_entry.day,
+       lesson_entry.time,
+       lesson_entry.state,
+       lesson_entry.city,
+       lesson_entry.street,
+       lesson_entry.detail,
+       users.main_language,
+       users.sub_language
+     FROM 
+       lesson_entry
+     LEFT JOIN
+       users
+     ON
+       lesson_entry.fb_user_id = users.fb_user_id
+     ';
 
-//３．データ登録SQL作成
-$stmt = $pdo->prepare("SELECT * FROM lesson ORDER BY start_time");
+$stmt = $dbh->prepare($sql);
 
-//４．SQL実行
-$flag = $stmt->execute();
+//SQLの実行
+$stmt->execute();
 
-//5.表示文字列を作成→変数に追記で代入
+$dbh = null;
 
 ?>
 
@@ -61,54 +80,44 @@ $flag = $stmt->execute();
             <main class="main">
                 <h2 class="hidden">ARTICLES</h2>
                 <div class="clearfix">
+                    
                     <?php
-                    //レッスンリストの一覧の作成
+                    
                     while(true)
                     {
-                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if($result==false)
-                    {
-                    break;
-                    }
-                        $lessonid=$result['id'];
-                        $title=$result['title'];
-                        $start=$result['start_time'];
-                        $time=$result['time'];
-                        $time_jp=jikan($time);
-                        $userid=$result['user_id'];
-                        $location=$result['location'];
-
-                        //2. DB文字コードを指定（固定）
-                        $stmt_user = $pdo->query('SET NAMES utf8');
-
-                        //３．データ登録SQL作成
-                        $stmt_user = $pdo->prepare("SELECT * FROM user WHERE id=$userid");
-
-                        //４．SQL実行
-                        $flag = $stmt_user->execute();
+                        $rec = $stmt->fetch(PDO::FETCH_ASSOC);
                         
-                        $result_user=$stmt_user->fetch(PDO::FETCH_ASSOC);
-                        $name=$result_user['name'];
-                        $main=$result_user['main_language'];
-                        $sub=$result_user['sub_language'];
-                        $picture=$result_user['picture'];
-                        $main_jp=main($main);
-                        $sub_jp=sub($sub);
-    
+                        if($rec==false)
+                        {
+                            break;
+                        }
+                    $fb_user_id = $rec['fb_user_id'];
+                    $day = $rec['day'];
+                    $time = $rec['time'];
+                    $state = $rec['state'];
+                    $city = $rec['city'];
+                    $street = $rec['street'];
+                    $detail = $rec['detail'];
+                    $main = $rec['main_language'];
+                    $sub = $rec['sub_language'];
+                    
                         print '<div class="article-box">';
-                        print '<img class="image" src="./picture/'.$picture.'">';
-                        print '<h3 class="title">'.$name.'</h3>';
-                        print '<p class="desc">'.'得意な言語：'.$main_jp.'</p>';
-                        print '<p class="desc">'.'学びたい言語：'.$sub_jp.'</p>';   
-                        print '<p class="desc">'.$start.'</p>';
-                        print '<p class="desc">'.'レッスン時間：'.$time_jp.'</p>';
-                        print '<p class="desc">'.'場所：'.$location.'</p>';
+                        print '<img class="image" src="http://graph.facebook.com/'. h($me->fb_user_id).'/picture">';
+                        print '<p class="desc">'.h($me->fb_name).'</p>';
+                        print '<p class="desc">'.'得意な言語：'.$main.'</p>';
+                        print '<p class="desc">'.'学びたい言語：'.$sub.'</p>';   
+                        print '<p class="desc">'.$day.'</p>';
+                        print '<p class="desc">'.'レッスン時間：'.$time.'</p>';
+                        print '<p class="desc">'.'場所：'.$street.'</p>';
                         print '<br />';
                         print '<br />';
-                        print "<a class='btn' href='lesson_confirm.php?userid={$userid}&lessonid={$lessonid}'>参加する</a>";
+                        print "<a class='btn' href=''>参加する</a>";
                         print '</div>';
                         
+                    
+                        
                     }
+                    
                     ?>
 
                 </div>

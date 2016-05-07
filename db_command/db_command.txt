@@ -1,0 +1,57 @@
+//mysqlへの接続
+mysql -u root
+
+create database befriend;
+
+grant all on befriend.* to dbuser@localhost identified by '*******';
+
+use befriend
+
+create table users (
+    id int not null auto_increment primary key,
+    fb_user_id bigint unique,
+    fb_name varchar(255),
+    fb_link varchar(255),
+    fb_access_token varchar(511),
+    mail varchar(255),
+    password varchar(255),
+    gender int(1),
+    age int(3),
+    main_language int(1),
+    sub_language int(1),
+    picture_1 varchar(255),
+    picture_2 varchar(255),
+    picture_3 varchar(255),
+    picture_4 varchar(255),
+    location varchar(255),
+    hometown varchar(255),
+    works varchar(255),
+    college varchar(255),
+    hobby varchar(255),
+    introducton varchar(5000),
+    created datetime,
+    modified datetime
+);
+
+create table lesson_entry (
+    id int not null auto_increment primary key,
+    fb_user_id bigint,
+    day datetime,
+    time int(10),
+    state int(10),
+    city varchar(255),
+    street varchar(5000),
+    detail varchar(5000),
+    created datetime,
+    modified datetime
+);
+
+
+create table lesson_join (
+    id int not null auto_increment primary key,
+    lesson_entry_id int unique,
+    fb_user_id bigint,
+    matching int(1),
+    created datetime,
+    modified datetime
+);

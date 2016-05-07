@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/config.php');
 
 $fbLogin = new MyApp\FacebookLogin();
@@ -26,30 +27,23 @@ if ($fbLogin->isLoggedIn()) {
 }
 
 //データの受け取り
-$day=$_POST['day'];
-$time=$_POST['time'];
-$state=$_POST['state'];
-$city=$_POST['city'];
-$street=$_POST['street'];
-$detail=$_POST['detail'];
-        
+$main = $_POST['main'];
+$sub = $_POST['sub'];
 
 //SQLを使ってデータの追加
-$sql='INSERT INTO lesson_entry (fb_user_id,day,time,state,city,street,detail) VALUES (?,?,?,?,?,?,?)';
+$sql='UPDATE users SET
+      main_language=?,
+      sub_language=?
+      WHERE fb_user_id=?';
 $stmt=$dbh->prepare($sql);
+$data[]=$main;
+$data[]=$sub;
 $data[]=$fb_user_id;
-$data[]=$day;
-$data[]=$time;
-$data[]=$state;
-$data[]=$city;
-$data[]=$street;
-$data[]=$detail;
 $stmt->execute($data);
         
 //DB接続を切断
 $dbh=null;
-
-//レッスン一覧へ飛ばす
-header('Location: http://' . $_SERVER['HTTP_HOST']. '/graduation/lesson_list.php');
         
-    ?>
+header('Location: http://' . $_SERVER['HTTP_HOST']. '/graduation/lesson_list.php');
+
+?>

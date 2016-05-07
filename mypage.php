@@ -1,46 +1,30 @@
 <?php
-session_start();
-session_regenerate_id();
-$id=$_SESSION['id'];
 
-//自作関数の読み込み
-require_once('function/function.php');
+require_once(__DIR__ . '/config.php');
+
+$fbLogin = new MyApp\FacebookLogin();
 
 
-if(isset($_SESSION['login'])==false)
-{
-    print 'ログインされていません。　<br />';
-    print '<a href="toppage.php">ログイン画面へ</a>';
-    exit();
-}
-else
-{
-    print 'ようこそ';
-    print $_SESSION['name'];
-    print '様';
-    print '<br />';
+//ログイン状態かどうか
+if ($fbLogin->isLoggedIn()) {
+    //id,name,linkを取得する
+    $me = $_SESSION['me'];
     
+    //emailを取得する
+    $fb = new MyApp\Facebook($me->fb_access_token);
+    $userNode = $fb->getUserNode();
+    
+    //IDを変数に入れる
+    $fb_user_id = $me->fb_user_id;
+    
+    //投稿情報を取得する
+    $posts = $fb->getPosts();
+    
+    //CSRF対策
+    //セッションにTokenを仕込む
+    MyApp\Token::create();
+
 }
-
-//自分のレッスン情報の取り出し
-
-//2. DB文字コードを指定（固定）
-$stmt = $pdo->query('SET NAMES utf8');
-
-//３．データ登録SQL作成
-$stmt = $pdo->prepare("SELECT * FROM user WHERE id=$id");
-
-//４．SQL実行
-$flag = $stmt->execute();
-
-//DB文字コードを指定（固定）
-$stmt_lesson = $pdo->query('SET NAMES utf8');
-
-//データ登録SQL作成
-$stmt_lesson = $pdo->prepare("SELECT * FROM lesson WHERE user_id=$id");
-
-//SQL実行
-$flag_lesson = $stmt_lesson->execute();
 
 ?>
 
@@ -70,6 +54,7 @@ $flag_lesson = $stmt_lesson->execute();
             <main class="main">
                 <h2>レッスン情報</h2>
                 <?php
+                /*
                 
                 //レッスン情報
                 while($result_lesson = $stmt_lesson->fetch(PDO::FETCH_ASSOC)){
@@ -193,7 +178,7 @@ $flag_lesson = $stmt_lesson->execute();
                         print "<a href='update.php'>更新する</a>";
                         print '</div>';
                     }
-                ?>
+                */?>
             </main>
         </div>
         <footer class="footer">

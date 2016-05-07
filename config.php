@@ -26,5 +26,12 @@ session_start();
 //よく使う関数の参照
 require_once(__DIR__ . '/functions.php');
 
+//DB接続をする
+$dsn='mysql:dbname=befriend;host=localhost;';
+$user='dbuser';
+$password='shogo0141';
+$dbh=new PDO($dsn,$user,$password);
+$dbh->query('SET NAMES utf8');
+
 
 ?>

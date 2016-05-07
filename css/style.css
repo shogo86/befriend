@@ -94,6 +94,37 @@
         display: inline-block;
     }
 
+.FbBtn {
+    background-color: #3b5998;
+    height: 45px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.FbBtn:after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 20px;
+    height: 20px;
+    background-image: url('../images/FB-f-Logo__blue_50.png');
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+}
+
+.FbBtnLabel {
+    color: #ffffff;
+    position: relative;
+    top: 13px;
+    text-align: center;
+    margin: 0 20px 0 50px;
+}
+
+
+
     /* --------------------------------
  * header
  * -------------------------------- */
@@ -299,7 +330,7 @@
     
     .contact-form input[type=text],
     .contact-form input[type=password],
-    .contact-form input[type=datetime-local],
+    .contact-form input[type=date],
     .contact-form select,
     .contact-form textarea {
         display: block;

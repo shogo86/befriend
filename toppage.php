@@ -1,30 +1,3 @@
-<?php
-
-require_once(__DIR__ . '/config.php');
-
-
-$fbLogin = new MyApp\FacebookLogin();
-
-
-//ログイン状態かどうか
-if ($fbLogin->isLoggedIn()) {
-    //id,name,linkを取得する
-    $me = $_SESSION['me'];
-    
-    //emailを取得する
-    $fb = new MyApp\Facebook($me->fb_access_token);
-    $userNode = $fb->getUserNode();
-    
-    //投稿情報を取得する
-    $posts = $fb->getPosts();
-    
-    //CSRF対策
-    //セッションにTokenを仕込む
-    MyApp\Token::create();
-
-}
-?>
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -45,12 +18,10 @@ if ($fbLogin->isLoggedIn()) {
         <p class="site-description">100カ国以上のネイティブスピーカーと学び合おう</p>
         <div class="buttons">
             <div class="container">
-                <div class="login">
-                    <a class="button-facebook" href="login.php">Facebook Login</a>
-            <!--<a class="button" href="#login">ログイン</a>
-            <a class="button button-showy" href="#contact">新規登録</a> -->
-                </div>
-            </div>
+                    <a class="FbBtn" href="login.php">
+                        <div class="FbBtnLabel">Facebookではじめる </div>
+                    </a>
+        </div>
         </div>
     </header>
     <section class="about" id="about">
@@ -194,5 +165,4 @@ if ($fbLogin->isLoggedIn()) {
     <script src="lib/placeholders.min.js"></script>
     
 </body>
-
 </html>
