@@ -34,151 +34,306 @@ if ($fbLogin->isLoggedIn()) {
 
     <head>
         <meta charset="UTF-8">
-        <title>マイページ</title>
+        <title>レッスンを探す</title>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/lesson_list.css">
+        <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     </head>
 
     <body>
-        <header class="header">
-            <nav class="global-nav">
+
+        <header id="header">
+            <div class="global-nav">
                 <ul>
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
-                    <li class="nav-item"><a href="lesson_entry.php">LESSON登録</a></li>
+                    <li class="nav-item"><a href="#">ユーザー検索</a></li>
                     <li class="nav-item"><a href="#">イベント検索</a></li>
-                    <li class="nav-item"><a href="mypage.php">MYPAGE</a></li>
+                    <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
-            </nav>
+            </div>
+            <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
+            <p class="name"><a href="mypage.php"><?= h($me->fb_name); ?></a></p>
+            <p class="lesson_entry"><a href="lesson_entry.php">レッスン登録</a></p>
+            <p class="befriend"><a href="lesson_list.php">Befriend</a></p>
         </header>
         <div class="wrapper clearfix">
             <main class="main">
-                <h2>レッスン情報</h2>
-                <?php
-                /*
+                <!--
+                <div class="mypage_table">
+                    <p>レッスンを承認する</p>
+                    <p>参加予定のレッスン</p>
+                    <p>参加済みのレッスン</p>
+                    <p>登録済みのレッスン</p>
+                    <p>メッセージ</p>
+                    <p>プロフィール</p>
+                </div>
+                -->
                 
-                //レッスン情報
-                while($result_lesson = $stmt_lesson->fetch(PDO::FETCH_ASSOC)){
-                        $lesson_id=$result_lesson['id'];
-                        $lesson_title=$result_lesson['title'];
-                        $lesson_start=$result_lesson['start_time'];
-                        $lesson_time=$result_lesson['time'];
-                        $lesson_time_jp=jikan($lesson_time);
-                        $lesson_location=$result_lesson['location'];
-                        $lesson_detail=$result_lesson['detail'];
-                    
-                //レッスンリクエスト
-                    //DB文字コードを指定（固定）
-                    $stmt_lesson_request = $pdo->query('SET NAMES utf8');
-
-                    //データ登録SQL作成
-                    $stmt_lesson_request = $pdo->prepare("SELECT * FROM lesson_request WHERE lesson_id=$lesson_id");
-
-                    //SQL実行
-                    $flag_lesson_request = $stmt_lesson_request->execute();
-
-                    //自分のレッスンへリクエストしている人
-                    $result_lesson_request = $stmt_lesson_request->fetch(PDO::FETCH_ASSOC);
-                    $request_lesson_id=$result_lesson_request['id'];
-                    $request_user_id=$result_lesson_request['request_user_id'];
-                    
-                    //マッチングフラグ
-                    $matching = $result_lesson_request['matching'];
-                    
-                //レッスンリクエストのユーザー情報抽出
-                    //DB文字コードを指定（固定）
-                    $stmt_request_user = $pdo->query('SET NAMES utf8');
-
-                    //データ登録SQL作成
-                    $stmt_request_user = $pdo->prepare("SELECT * FROM user WHERE id=$request_user_id");
-
-                    //SQL実行
-                    $flag_request_user = $stmt_request_user->execute();
-                    
-                    //ユーザー情報の抽出
-                    $result_request_user = $stmt_request_user->fetch(PDO::FETCH_ASSOC);
-                    $request_user_name = $result_request_user['name'];
-                    $request_user_picture = $result_request_user['picture'];
-                    
-                    //マッチングしているレッスン情報の表示
-                    if($matching==1)
-                    {
-                        print '<div class="article-box-mylesson">';
-                        print '<p class="desc">'.'タイトル：'.$lesson_title.'</p>';
-                        print '<p class="desc">'.'開始時間：'.$lesson_start.'</p>';
-                        print '<p class="desc">'.'レッスン時間：'.$lesson_time_jp.'</p>';
-                        print '<p class="desc">'.'場所：'.$lesson_location.'</p>';
-                        print '<p class="desc">'.'詳細：'.$lesson_detail.'</p>';
-                        print '<img class="image" src="./picture/'.$request_user_picture.'">';
-                        print '<p class="text_matching">参加予定</p>';
-                        print '</div>';
-                    }else{
-                    //マッチングしていないレッスン情報の表示
-                        //リクエストしている人がいない場合
+                <ul class = "mypage_gnav">
+                    <li><a href="mypage.php">レッスンを承認する</a></li>
+                    <li><a href="mypage_lesson_plans.php">参加予定のレッスン</a></li>
+                    <li><a href="mypage_lesson_past.php">参加済みのレッスン</a></li>
+                    <li><a href="mypage_lesson_all.php">登録済みのレッスン</a></li>
+                    <li><a href="">メッセージ</a></li>
+                    <li><a href="mypage_profile.php">プロフィール</a></li>
+                </ul>
+                
+                <div class="mypage_lesson">
+                <?php
+                //自分の登録したレッスンの抽出
+                /*$sql = 'SELECT 
+                            id,
+                            day,
+                            time,
+                            state,
+                            city,
+                            street,
+                            detail        
+                        FROM 
+                            lesson_entry
+                        WHERE 
+                            fb_user_id = ?
+                ';
+                $stmt = $dbh->prepare($sql);
+                $data[] = $fb_user_id;
+                $stmt->execute($data);
+                */
+                
+                $sql = 'SELECT 
+                            lesson_join.id,
+                            lesson_join.lesson_entry_id,
+                            lesson_join.fb_user_id,
+                            lesson_entry.day,
+                            lesson_entry.hour,
+                            lesson_entry.minute,
+                            lesson_entry.time,
+                            lesson_entry.state,
+                            lesson_entry.city,
+                            lesson_entry.street,
+                            lesson_entry.detail,
+                            users.fb_name,
+                            users.main_language,
+                            users.sub_language
+                        FROM 
+                            lesson_entry
+                        LEFT JOIN
+                            lesson_join
+                        ON
+                            lesson_entry.id = lesson_join.lesson_entry_id
+                        LEFT JOIN
+                            users
+                        ON
+                            lesson_join.fb_user_id = users.fb_user_id
+                        WHERE 
+                            lesson_entry.fb_user_id = ?
+                            AND lesson_join.matching IS NULL
+                            AND users.fb_user_id <> ?
+                            AND lesson_entry.day >= NOW()
+                        ORDER BY lesson_entry.id
                         
-                     if(isset($request_user_id)==false)
+                ';
+                $stmt = $dbh->prepare($sql);
+                $data[] = $fb_user_id;
+                $data[] = $fb_user_id;
+                $stmt->execute($data);
+                
+                
+                
+                //レッスン情報の表示
+                while(true)
                     {
-                        print '<div class="article-box-mylesson">';
-                        print '<p class="desc">'.'タイトル：'.$lesson_title.'</p>';
-                        print '<p class="desc">'.'開始時間：'.$lesson_start.'</p>';
-                        print '<p class="desc">'.'レッスン時間：'.$lesson_time_jp.'</p>';
-                        print '<p class="desc">'.'場所：'.$lesson_location.'</p>';
-                        print '<p class="desc">'.'詳細：'.$lesson_detail.'</p>';
-                        print '<p class="text_no_matching">リクエスト待ち</p>';
-                        print '</div>';
-                    }
-                    else
-                        //リクエストしている人がいる場合
-                    {
-                        print '<div class="article-box-mylesson">';
-                        print '<p class="desc">'.'タイトル：'.$lesson_title.'</p>';
-                        print '<p class="desc">'.'開始時間：'.$lesson_start.'</p>';
-                        print '<p class="desc">'.'レッスン時間：'.$lesson_time_jp.'</p>';
-                        print '<p class="desc">'.'場所：'.$lesson_location.'</p>';
-                        print '<p class="desc">'.'詳細：'.$lesson_detail.'</p>';
-                        print '<p class="desc">リクエストしている人</p>';
-                        print "<a href='lesson_request_approval.php?lesson_id={$lesson_id}&request_user_id={$request_user_id}&request_lesson_id={$request_lesson_id}'>$request_user_name</a>";
-                        print '<img class="image" src="./picture/'.$request_user_picture.'">';
-                        print '<p class="text_no_matching">リクエスト待ち</p>';
-                        print '</div>';
-                    }  
-                    }
+                        $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+                        
+                        if($rec==false)
+                        {
+                            break;
+                        }
+                    $lesson_join_id = $rec['id'];
+                    $lesson_entry_id = $rec['lesson_entry_id'];
+                    $lesson_join_fbuserid = $rec['fb_user_id'];
+                    $day = $rec['day'];
+                    $hour = $rec['hour'];
+                    $minute = $rec['minute'];
+                    $time = $rec['time'];
+                    $state = $rec['state'];
+                    $city = $rec['city'];
+                    $street = $rec['street'];
+                    $detail = $rec['detail'];
+                    $entry_user_name = $rec['fb_name'];
+                    $main = $rec['main_language'];
+                    $sub = $rec['sub_language'];
                     
-                    }
-                ?>
-            </main>
-            <main class="main">
-                <?php 
-    //5.表示文字列を作成→変数に追記で代入
-                    while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-                        $code=$result['id'];
-                        $name=$result['name'];
-                        $email=$result['email'];
-                        $age=$result['age'];
-                        //性別
-                        $sex=$result['sex'];
-                        $sex_jp=sex($sex);
-                        //得意な言語
-                        $main=$result['main_language'];
+                    $minute_change=minute($minute);
+                        $time_change=time_change($time);
                         $main_jp=main($main);
-                        //学びたい言語
-                        $sub=$result['sub_language'];
                         $sub_jp=sub($sub);
-                        //画像の表示
-                        $picture=$result['picture'];
-                        print '<h2>プロフィール</h2>';
+                        $state_jp=state_jp($state);
+                        
+                        //日付のみに変換する
+                        $date = substr($day,0,10);
+                        //曜日の抽出
+                        $datetime = new DateTime($date);
+                        $week = array("日", "月", "火", "水", "木", "金", "土");
+                        $w = (int)$datetime->format('w');
+                        
+                        //終了時間の算出
+                        $time_count = ($hour * 60 + $minute_change + $time_change) / 60;
+                        
+                        $time_end = explode('.',$time_count);
+                        //終了の時
+                        $time_end_hour = $time_end[0];
+                        //終了の分の計算
+                        if($time_end[1] < 10){
+                            $time_end_minute = $time_end[1] * 0.1 * 60;
+                        } else {
+                            $time_end_minute = $time_end[1] * 0.01 * 60;
+                        };
+                        
+                        //分が0の場合は00と表記する
+                        if($time_end_minute == 0){
+                            $time_end_minute = '00';
+                        };
+                        if($minute_change == 0){
+                            $minute_change = '00';
+                        };
+                        
                         print '<div class="article-box">';
-                        print '<img class="image" src="./picture/'.$picture.'">';
-                        print '<p class="desc">'.'名前：'.$name.'</p>';
-                        print '<p class="desc">'.'メールアドレス：'.$email.'</p>';
-                        print '<p class="desc">'.'年齢：'.$age.'</p>';
-                        print '<p class="desc">'.'性別：'.$sex_jp.'</p>';
-                        print '<p class="desc">'.'得意な言語：'.$main_jp.'</p>';
-                        print '<p class="desc">'.'学びたい言語：'.$sub_jp.'</p>';
-                        print '<br />';
-                        print "<a href='update.php'>更新する</a>";
+                        print '<div class="profile">';
+                        print '<img class="image" src="http://graph.facebook.com/'.$lesson_join_fbuserid.'/picture?width=320&height=320">';
+                        print '<p class="desc">'.$entry_user_name.'</p>';
+                        print '<p class="desc">'.$main_jp.' > '.$sub_jp. '</p>';
                         print '</div>';
+                        print '<div class="time">';
+                        print '<p class="desc">'.$date.'（'.$week[$w].'）'.'</p>';
+                        print '<p class="desc">'.$hour.'時'.$minute_change.'分'.' 〜 '.$time_end_hour.'時'.$time_end_minute.'分'.'</p>';
+                        print '</div>';
+                        print '<div class="place">';
+                        print '<p class="desc">'.$state_jp.'</p>';
+                        print '<p class="desc">'.$street.'</p>';
+                        print '</div>';
+                        print "<a class='btn' href='lesson_join_agree_done.php?lesson_join_id={$lesson_join_id}&lesson_join_fbuserid={$lesson_join_fbuserid}&lesson_entry_id={$lesson_entry_id}'>リクエストを承認</a>";
+                        print '</div>';
+                    
+                    
+                    
+                    /*$day = $rec['day'];
+                    $time = $rec['time'];
+                    $state = $rec['state'];
+                    $city = $rec['city'];
+                    $street = $rec['street'];
+                    $detail = $rec['detail'];*/
+                }
+                    /*
+                    //DB接続をする
+                    $dsn='mysql:dbname=befriend;host=localhost;';
+                    $user='dbuser';
+                    $password='shogo0141';
+                    $dbh=new PDO($dsn,$user,$password);
+                    $dbh->query('SET NAMES utf8');
+                    
+                    
+                    //レッスンに紐づくユーザー情報の抽出
+                    $sql_users = 'SELECT 
+                                    lesson_join.id,
+                                    users.fb_name 
+                                FROM 
+                                    lesson_join 
+                                LEFT JOIN 
+                                    users 
+                                ON 
+                                    lesson_join.fb_user_id = users.fb_user_id 
+                                WHERE 
+                                    lesson_join.lesson_entry_id = ? ';
+                    
+                    $stmt_users = $dbh->prepare($sql_users);
+                    $data_users[] = $lesson_entry_id;
+                    $stmt->execute($data);
+                    $dbh = null;
+                    */
+                    /*
+                    print '<tr>';
+                        print '<th>日付</th>';
+                        print '<td>'.$day.'</td>';
+                    print '</tr>';
+                    print '<tr>';
+                        print '<th>時間</th>';
+                        print '<td>'.$time.'</td>';
+                    print '</tr>';
+                    
+                    }*/
+                
+                    
+                    
+                    
+                    /*
+                    print '<div class="article-box">';  
+                    print '<p class="desc">'.$day.'</p>';
+                    print '<p class="desc">'.'レッスン時間：'.$time.'</p>';
+                    print '<p class="desc">'.'場所：'.$street.'</p>';
+                    print '<br />';
+                    print '<br />';
+                    print '</div>';
+                    */
+                    
+                    
+                    //var_dump($lesson_entry_id );
+                    //exit;
+                    
+                    /*
+                    
+                    //DB接続をする
+                    $dsn='mysql:dbname=befriend;host=localhost;';
+                    $user='dbuser';
+                    $password='shogo0141';
+                    $dbh=new PDO($dsn,$user,$password);
+                    $dbh->query('SET NAMES utf8');
+                    
+                    //SQLの作成
+                    $sql_users = 'SELECT lesson_join.id,users.fb_name FROM lesson_join LEFT JOIN users ON lesson_join.fb_user_id = users.fb_user_id WHERE lesson_join.lesson_entry_id = ? ';
+                    $stmt_users = $dbh->prepare($sql_users);
+                    $data_users[] = $lesson_entry_id;
+                    //var_dump($data_users);
+                    //exit;
+                    $stmt_users->execute($data_users);
+
+                    //DBの切断
+                    $dbh = null;
+                    
+                    while(true)
+                    {
+                        $rec_users = $stmt_users->fetch(PDO::FETCH_ASSOC);
+                        
+                        if($rec==false)
+                        {
+                            break;
+                        }
+                    $user_fb_name = $rec_users['fb_name'];
+                        //var_dump($user_fb_name);
+                        //exit;
+                    
+                    
+                    
+                    
+                    while(true)
+                    {
+                        $rec_users = $stmt_users->fetch(PDO::FETCH_ASSOC);
+                        
+                        if($rec_users==false)
+                        {
+                            break;
+                        }
+
+
+                        $user_name = $rec['users.fb_name'];
+                        var_dump($user_name);
+                        exit;
+                    
+                        
                     }
-                */?>
+                }*/
+                ?>
+                </div>
+                
             </main>
         </div>
         <footer class="footer">

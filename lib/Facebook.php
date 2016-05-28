@@ -15,10 +15,10 @@ class Facebook {
         $this->_fb->setDefaultAccessToken($accessToken);
     }
 
-    //ユーザー情報を取得する
+    //基本のユーザー情報を取得する
     public function getUserNode() {
         $process = function() {
-            $res = $this->_fb->get('/me?fields=id,name,email,link');
+            $res = $this->_fb->get('/me?fields=id,name,email,link,gender');
             $userNode = $res->getGraphUser();
             return $userNode;
         };

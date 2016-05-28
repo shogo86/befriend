@@ -17,7 +17,7 @@ define('DB_USERNAME', 'dbuser');
 define('DB_PASSWORD', 'shogo0141');
 
 //ログイン時に飛ばす
-define('CALLBACK_URL', 'http://' .$_SERVER['HTTP_HOST']. '/graduation/login.php');
+define('CALLBACK_URL', 'http://' .$_SERVER['HTTP_HOST']. '/login.php');
 //define('CALLBACK_URL', 'http://' .$_SERVER['HTTP_HOST']. '/login.php');
 
 //セッションを行う

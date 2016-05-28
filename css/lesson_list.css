@@ -23,7 +23,8 @@
             a:visited,
             a:hover,
             a:active {
-                color: #d03c56;
+                color: #fff;
+                /*color: #d03c56;*/
                 text-decoration: none;
             }
             /* --------------------------------
@@ -50,11 +51,15 @@
  * header
  * -------------------------------- */
             
-            .header {
+            #header {
                 width: 100%;
-                padding: 28px 0 10px;
-                background: url('../images/bg-header.gif') repeat-x;
+                height: 60px;
+                padding: 15px 0 0px;*/
+                /*background: url('../images/bg-header.gif') repeat-x;*/
                 box-shadow: 0 0 10px 1px #e3e3e3;
+                background-color: rgb(15,153,214);
+                position: fixed;
+                z-index: 10000;
             }
             
             .logo {
@@ -74,23 +79,23 @@
             }
             
             .global-nav {
-                margin-top: 15px;
-                text-align: center;
+                display: block;
+                padding-right: 300px;
+                padding-left: 250px;
             }
             
             .global-nav .nav-item {
                 display: inline-block;
-                margin: 0 10px;
             }
             
             .global-nav .nav-item a {
                 display: inline-block;
                 width: 100px;
-                height: 30px;
+                height: 10px;
                 line-height: 30px;
                 text-align: center;
                 border-radius: 8px;
-                color: #666;
+                color: #fff;
                 font-size: 1.3rem;
                 letter-spacing: 1px;
                 transition: 0.15s;
@@ -98,16 +103,62 @@
             
             .global-nav .nav-item.active a,
             .global-nav .nav-item a:hover {
-                background-color: #d03c56;
+                /*background-color: #d03c56;*/
                 color: #fff;
             }
+
+            .pic {
+                display: block;
+                border-radius: 50%;
+                float: right;
+                width: 50px;
+                height: 50px;
+            }
+
+            #header .image{
+                position: absolute;
+                right: 300px;
+                top: 5px;
+    
+            }
+            
+            #header .name{
+                position: absolute;
+                right: 200px;
+                top: 25px;
+                color: #fff;
+            }
+
+            #header .lesson_entry{
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 30px;
+                width: 100px;
+                height: 40px;
+                padding-top: 13px;
+                padding-left: 12px;
+                background-color: #FF8A07;
+    
+            }
+
+            #header .befriend{
+                display: block;
+                position: absolute;
+                top: 13px ;
+                left: 80px;
+                width: 100px;
+                font-family: 'Pacifico', cursive;
+                font-size: 32px;
+            }
+
             /* --------------------------------
  * wrapper
  * -------------------------------- */
-            
             .wrapper {
                 width: 970px;
-                margin: 30px auto 40px;
+                margin: 0px auto 40px;
+                padding-top: 100px;
             }
             /* --------------------------------
  * main
@@ -116,7 +167,7 @@
             .main {
                 display: block;
                 float: left;
-                width: 1200px;
+                width: 100%;
             }
             
             .hot-topic {
@@ -330,13 +381,17 @@
             
             .article-box {
                 position: relative;
+                text-align: center;
                 display: block;
-                width: 315px;
+                width: 300px;
                 height: 400px;
-                margin-bottom: 30px;
-                padding: 210px 15px 0;
+                /*margin-bottom: 30px;*/
+                margin: 0 20px 20px 0;
+                padding: 155px 0px 0;
+                border: thin #E9EBEE solid;
+                /*
                 box-shadow: 6px 6px 8px -4px rgba(0, 0, 0, 0.15);
-                transition: opacity 0.15s;
+                transition: opacity 0.15s;*/
             }
             
             .article-box:hover {
@@ -345,6 +400,7 @@
             
             .article-box {
                 float: left;
+                text-align: center;
             }
             /*.article-box:nth-of-type(odd) {
             float: left;
@@ -361,13 +417,30 @@
                 font-size: 1.4rem;
                 line-height: 1.6;
             }
+
+            .article-box .profile{
+                padding: 15px 0 10px;
+    
+            }
+            
+            .article-box .time{
+                border: thin #E9EBEE solid;
+                padding: 5px 0 5px;
+            }
+
+
+            .article-box .place{
+                padding: 5px 0 5px;
+            }
+
             
             .article-box .desc {
-                margin-top: 5px;
+                margin-top: 6px;
                 color: #333;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                text-align: center;
             }
             
             .article-box .date {
@@ -387,15 +460,22 @@
             
             .article-box .image {
                 position: absolute;
-                top: 0;
-                left: 0;
-                max-width: 315;
-                max-height: 180px;
-                padding-left: auto;
-                margin: 0 auto;
+                top: 8px;
+                left: 70px;
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                /*padding-left: auto;*/
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                /*text-align: center;*/
+                border: 4px solid #fff;
+                box-shadow: 0 0 3px rgba(120, 120, 120, .35);
             }
-            
-            * -------------------------------- * sidemenu * -------------------------------- */ .sidemenu {
+            /*
+            * -------------------------------- * sidemenu * -------------------------------- */
+            .sidemenu {
                 float: right;
                 width: 275px;
             }
@@ -552,7 +632,7 @@
             .footer {
                 width: 100%;
                 padding: 20px 0 30px;
-                background: #2d3d54 url('../images/bg-footer.gif');
+                background-color: #696969;
                 color: #fff;
             }
             
@@ -585,22 +665,335 @@
             }
             
             .copyright {
-                margin-top: 30px;
                 text-align: center;
                 letter-spacing: 1px;
             }
             
             .btn {
-                background: -moz-linear-gradient(top, #FFF 0%, #EEE);
-                background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#EEE));
+                display: block;
+                position: absolute;
+                bottom: 0;
                 border: 1px solid #DDD;
-                color: #111;
-                width: 100px;
-                padding: 10px 5px;
-                margin-left: 100px;
+                background-color: rgb(15,153,214);
+                padding: 15px 124px;
                 margin-top: 350px;
             }
             /* --------------------------------
+
+/*----contact--------------*/
+
+.contact{
+    padding-top: 100px;
+    background-color: #F3F3F3;
+}
+
+.contact .contact-form{
+    background-color: #fff;
+    margin: 30px 150px 30px 150px;
+    border-radius: 8px;
+}
+
+.contact .day_text{
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.contact .day{
+    display: inline;
+    padding: 5px 10px 5px;
+    height: 40px;
+    font-size: 15px;
+    color: #999999;
+}
+
+.contact .time_text{
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.contact .time{
+    display: inline;
+}
+
+.contact .lesson_time{
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.contact .place_text{
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 200px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.contact .state{
+    display: inline;
+}
+
+.contact .street{
+    display: inline;
+}
+
+.contact .select{
+    display: block;
+    padding: 10px;
+    
+}
+
+.contact .send{
+}
+
+/*----------マイページ---------------------*/
+
+.mypage_table{
+    display: inline-block;
+    width: 160px;
+}
+
+.mypage_table p{
+    display: block;
+    width: 150px;
+    text-align: center;
+    background-color: rgb(15,153,214);
+    color: #fff;
+    border: thin #999999 solid;
+    height: 35px;
+    font-size: 13px;
+    padding-top: 10px;
+}
+
+.mypage_lesson{
+    display: inline;
+}
+
+.mypage_gnav{
+    width: 100%; 　/*任意の幅で*/
+    height: 40px;    /*任意の高さで*/
+    margin: 0 0 70px 0;  /*センタリング用*/
+    list-style:none;
+}
+
+.mypage_gnav a{
+    display:block;
+    line-height:40px;   /*任意の高さで(基本heightと同じ数値)*/
+    vertical-align: baseline;
+}
+
+.mypage_gnav a::hover{text-decoration:none;}
+
+.mypage_gnav li{
+   width: 157px;  /*任意の幅*/
+   float: left;
+   background-color: rgb(15,153,214); /*任意の色*/
+   text-align: center;
+   color: #fff;  /*任意の色*/
+   font-size: 1.3rem;
+}
+
+.mypage_gnav li:hover{background-color:#47a89c;}   /*任意の色*/
+
+
+.profile_picture{
+    display: inline-block;
+    width: 43%;
+}
+
+.profile_edit {
+    font-size: 12px;
+    font-size: 12px;
+    font-size: 1.2rem;
+    line-height: 1.0;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 30px;
+    color: #fff;
+    background-color: #71c3c8;
+    box-shadow: 0 3px 0 #53b7bb;
+}
+
+
+.profile_picture ul{
+    overflow: hidden;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.profile_picture li{
+    float: left;
+	margin-right: 1%;
+	width: 24%;
+}
+
+.profile_picture img{
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+}
+
+#bigimg {
+    object-fit: cover;
+    width: 413px;
+    height: 413px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+}
+
+.profile_text {
+    float: right;
+    padding-right: 100px;
+}
+
+.profile_text .desc {
+    padding: 5px;
+    color: #8d9399;
+}
+
+.profile_title {
+    padding: 5px ;
+    font-size: 14px;
+    line-height: 1.0;
+    padding-left: 8px;
+    color: #8d9399;
+    border-left: 3px solid #8d9399;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.profile_text a {
+    color: #8d9399;
+    text-decoration: underline;
+}
+
+.profile_text .profile_edit {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1.0;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 30px;
+    background-color: #71c3c8;
+    box-shadow: 0 3px 0 #53b7bb;
+    margin-left: 20px;
+}
+
+/*---------profile edit----------------*/
+
+
+.profile_text_edit {
+    
+}
+
+.profile_text_edit .desc {
+    padding: 5px;
+    color: #8d9399;
+    /*display: inline-block;*/
+}
+
+.input_form {
+    display: inline;
+}
+
+.profile_text_edit a {
+    color: #8d9399;
+    text-decoration: underline;
+}
+
+.profile_text_edit .profile_edit {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 1.0;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 30px;
+    background-color: #71c3c8;
+    box-shadow: 0 3px 0 #53b7bb;
+    margin-left: 20px;
+}
+
+/*----------profile picture_edit-------------*/
+
+.profile_picture_edit img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+}
+
+.profile_title_edit {
+    padding: 5px ;
+    font-size: 14px;
+    line-height: 1.0;
+    padding-left: 8px;
+    color: #8d9399;
+    border-left: 3px solid #8d9399;
+    margin-bottom: 15px;
+}
+
+
+
+
+.profile_picture .thumb{
+    
+}
+
+.profile_inputform {
+    float: right;
+    padding-right: 300px;
+}
+
+.main_picture {
+    margin-bottom: 50px;
+    
+}
+
+
+.sub_picture {
+    
+}
+
+
+.img_input {
+}
+
+.input_send {
+    
+}
+
+
+/*
  * challenge
  *
  * 288行目からの.ranking .order, .ranking .order::beforeの

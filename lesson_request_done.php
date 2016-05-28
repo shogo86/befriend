@@ -1,52 +1,85 @@
-<!DOCTYPE html>
-<html>
+<?php
+require_once(__DIR__ . '/config.php');
 
-<head>
-    <meta charset="UTF-8">
-    <title>レッスン登録完了</title>
-</head>
+$fbLogin = new MyApp\FacebookLogin();
 
-<body>
-    <?php
-    //自作関数の読み込み
-    require_once('function/function.php');
+
+//ログイン状態かどうか
+if ($fbLogin->isLoggedIn()) {
+    //id,name,linkを取得する
+    $me = $_SESSION['me'];
     
-    session_start();
-    session_regenerate_id();
-        
-    $id=$_SESSION['id'];
+    //emailを取得する
+    $fb = new MyApp\Facebook($me->fb_access_token);
+    $userNode = $fb->getUserNode();
     
-    //サーバーエラー時の対策
-    try
-    {
-        //データの受け取り
-        $lessonid=$_POST['lessonid'];
-        $entryid=$_POST['userid'];
+    //IDを変数に入れる
+    $fb_user_id = $me->fb_user_id;
+    
+    //投稿情報を取得する
+    $posts = $fb->getPosts();
+    
+    //CSRF対策
+    //セッションにTokenを仕込む
+    MyApp\Token::create();
+
+}
+
+$lesson_entry_id = $_GET['lesson_entry_id'];
+$lesson_entry_fbuserid = $_GET['lesson_entry_fbuserid'];
+    
         
         //SQLを使ってデータの追加
-        $sql='INSERT INTO lesson_request(request_user_id,entry_user_id,lesson_id) VALUES (?,?,?)';
+        $sql='INSERT INTO lesson_join (lesson_entry_id,fb_user_id) VALUES (?,?)';
         $stmt=$dbh->prepare($sql);
-        $data[]=$id;
-        $data[]=$entryid;
-        $data[]=$lessonid;
+        $data[]=$lesson_entry_id;
+        $data[]=$fb_user_id;
 
         $stmt->execute($data);
         
         //DB接続を切断
         $dbh=null;
+
+
+?>
+
+<!DOCTYPE html>
+    <html lang="ja">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>レッスンを探す</title>
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/lesson_list.css">
+    </head>
+
+    <body>
+
+        <header class="header">
+            <nav class="global-nav">
+                <ul>
+                    <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
+                    <li class="nav-item"><a href="lesson_entry.php">LESSON登録</a></li>
+                    <li class="nav-item"><a href="#">イベント検索</a></li>
+                    <li class="nav-item"><a href="mypage.php">MYPAGE</a></li>
+                </ul>
+            </nav>
+        </header>
+
+
+
+    <?php print 'リクエストを送りました。 <br />'; ?>
+    
+        <footer class="footer">
+            <ul class="horizontal-list">
+                <li class="horizontal-item"><a href="#">ABOUT ME</a></li>
+                <li class="horizontal-item"><a href="#">SITE MAP</a></li>
+                <li class="horizontal-item"><a href="#">SNS</a></li>
+                <li class="horizontal-item"><a href="#">CONTACT</a></li>
+            </ul>
+            <p class="copyright">Copyright © 2015 SAMPLE SITE</p>
+        </footer>
         
-        print 'リクエストを送りました。 <br />';
-        
-    }
-    //サーバーエラー時の対策
-    catch(Exception $e)
-    {
-        
-        print 'ただいま障害により大変ご迷惑をお掛けしています。';
-        exit();
-    }
-    ?>
-        <a href="lesson_list.php">戻る</a>
 
 </body>
 

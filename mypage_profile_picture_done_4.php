@@ -26,29 +26,31 @@ if ($fbLogin->isLoggedIn()) {
 
 }
 
-//データの受け取り
-$main = $_POST['main'];
-$sub = $_POST['sub'];
+$picture_4 = $_FILES['picture_4'];
 
-//picture_1の登録を行う
-$picture = 'http://graph.facebook.com/'.$fb_user_id.'/picture?width=500&height=500';
+//画像の拡張子の取得
+$result = explode(".",$picture_4['name']);
+$extension = $result[1];
 
-//SQLを使ってデータの追加
+//ファイル名の作成。facebook_id + マイクロタイム + 拡張子
+$now = microtime(true);
+$picture_edit = $fb_user_id.$now.'.'.$extension;
+
+//画像をアップロード。
+move_uploaded_file($picture_4['tmp_name'],'./picture/'.$picture_edit);
+
+//データベースに保存
 $sql='UPDATE users SET
-      main_language=?,
-      sub_language=?,
-      picture_1 = ?
+      picture_4=?
       WHERE fb_user_id=?';
 $stmt=$dbh->prepare($sql);
-$data[]=$main;
-$data[]=$sub;
-$data[]=$picture;
+$data[]=$picture_edit;
 $data[]=$fb_user_id;
 $stmt->execute($data);
         
 //DB接続を切断
 $dbh=null;
-        
-goLessonlist();
+
+header('Location: http://' . $_SERVER['HTTP_HOST']. '/mypage_profile.php');
 
 ?>

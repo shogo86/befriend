@@ -13,7 +13,7 @@ create table users (
     fb_name varchar(255),
     fb_link varchar(255),
     fb_access_token varchar(511),
-    mail varchar(255),
+    email varchar(255),
     password varchar(255),
     gender int(1),
     age int(3),

@@ -1,5 +1,4 @@
 <?php
-
 require_once(__DIR__ . '/config.php');
 
 $fbLogin = new MyApp\FacebookLogin();
@@ -27,28 +26,23 @@ if ($fbLogin->isLoggedIn()) {
 }
 
 //データの受け取り
-$main = $_POST['main'];
-$sub = $_POST['sub'];
+$lesson_join_id = $_GET['lesson_join_id'];
+$lesson_join_fbuserid = $_GET['lesson_join_fbuserid'];
+$lesson_entry_id = $_GET['lesson_entry_id'];
 
-//picture_1の登録を行う
-$picture = 'http://graph.facebook.com/'.$fb_user_id.'/picture?width=500&height=500';
-
-//SQLを使ってデータの追加
-$sql='UPDATE users SET
-      main_language=?,
-      sub_language=?,
-      picture_1 = ?
-      WHERE fb_user_id=?';
-$stmt=$dbh->prepare($sql);
-$data[]=$main;
-$data[]=$sub;
-$data[]=$picture;
-$data[]=$fb_user_id;
+//SQLを使ってマッチングしたデータの追加
+//$sql_join = 'UPDATE lesson_join SET matching = 1 WHERE id = ?';
+$sql_join = 'UPDATE lesson_join SET matching = CASE WHEN id = ? THEN 1 WHEN id <> ? AND lesson_entry_id = ? THEN 0 ELSE matching END';
+$stmt=$dbh->prepare($sql_join);
+$data[]=$lesson_join_id;
+$data[]=$lesson_join_id;
+$data[]=$lesson_entry_id;
 $stmt->execute($data);
-        
+
 //DB接続を切断
 $dbh=null;
-        
-goLessonlist();
 
-?>
+//レッスン一覧へ飛ばす
+header('Location: http://' . $_SERVER['HTTP_HOST']. '/mypage.php');
+
+    ?>

@@ -7,6 +7,7 @@
         font-size: 62.5%;
     }
     
+
     body {
         background: #151515 url('../images/bg.png') no-repeat fixed left bottom;
         background-size: cover;
@@ -123,6 +124,10 @@
     margin: 0 20px 0 50px;
 }
 
+.pic {
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
 
 
     /* --------------------------------
@@ -341,7 +346,6 @@
         border: 1px solid rgba(255, 255, 255, 0.4);
         border-radius: 0;
         background-color: rgba(255, 255, 255, 0.05);
-        color: #fff;
     }
     
     .contact-form input[type=text]:focus,
@@ -371,14 +375,80 @@
     .contact-form input[type=submit]:hover {
         background-color: rgba(255, 255, 255, 0.05);
     }
+
+/*------------------------------
+last message
+-------------------------------*/
+
+.last-message{
+        background: url(../images/tokyo_machinami_2.jpg);
+        background-size: cover;
+    
+}
+
+
     /* --------------------------------
  * footer
  * -------------------------------- */
-    
+/*    
     .footer {
         padding: 12px 0;
         font-size: 1.3rem;
     }
+*/
+.footer {
+                width: 100%;
+                padding: 20px 0 30px;
+                background: #2d3d54 url('../images/bg-footer.gif');
+                color: #fff;
+            }
+            
+            .horizontal-list {
+                width: 970px;
+                margin: 0 auto;
+                text-align: right;
+                font-size: 0;
+            }
+            
+            .horizontal-list .horizontal-item {
+                display: inline-block;
+                padding: 0 15px;
+                letter-spacing: 1px;
+            }
+            
+            .horizontal-list .horizontal-item + .horizontal-item {
+                border-left: 1px solid #bbb;
+            }
+            
+            .horizontal-list .horizontal-item a {
+                border-bottom: 1px dashed #777;
+                color: #bbb;
+                font-size: 1.1rem;
+                transition: color 0.15s;
+            }
+            
+            .horizontal-list .horizontal-item a:hover {
+                color: #ddd;
+            }
+            
+            .copyright {
+                text-align: center;
+                letter-spacing: 1px;
+            }
+            
+            .btn {
+                background: -moz-linear-gradient(top, #FFF 0%, #EEE);
+                background: -webkit-gradient(linear, left top, left bottom, from(#FFF), to(#EEE));
+                border: 1px solid #DDD;
+                color: #111;
+                width: 100px;
+                padding: 10px 5px;
+                margin-left: 100px;
+                margin-top: 350px;
+            }
+
+
+
     /* --------------------------------
  * smart phone
  * -------------------------------- */

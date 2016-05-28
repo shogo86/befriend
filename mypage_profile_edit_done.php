@@ -26,29 +26,49 @@ if ($fbLogin->isLoggedIn()) {
 
 }
 
-//データの受け取り
-$main = $_POST['main'];
-$sub = $_POST['sub'];
-
-//picture_1の登録を行う
-$picture = 'http://graph.facebook.com/'.$fb_user_id.'/picture?width=500&height=500';
+$email = $_POST['email'];
+$gender = $_POST['gender'];
+$age = $_POST['age'];
+$main_language = $_POST['main_language'];
+$sub_language = $_POST['sub_language'];
+$hometown = $_POST['hometown'];
+$location = $_POST['location'];
+$works = $_POST['works'];
+$college = $_POST['college'];
+$hobby = $_POST['hobby'];
 
 //SQLを使ってデータの追加
 $sql='UPDATE users SET
+      email=?,
+      gender=?,
+      age=?,
       main_language=?,
       sub_language=?,
-      picture_1 = ?
+      location=?,
+      hometown=?,
+      works=?,
+      college=?,
+      hobby=?
       WHERE fb_user_id=?';
 $stmt=$dbh->prepare($sql);
-$data[]=$main;
-$data[]=$sub;
-$data[]=$picture;
+$data[]=$email;
+$data[]=$gender;
+$data[]=$age;
+$data[]=$main_language;
+$data[]=$sub_language;
+$data[]=$hometown;
+$data[]=$location;
+$data[]=$works;
+$data[]=$college;
+$data[]=$hobby;
 $data[]=$fb_user_id;
 $stmt->execute($data);
         
 //DB接続を切断
 $dbh=null;
         
-goLessonlist();
+header('Location: http://' . $_SERVER['HTTP_HOST']. '/mypage_profile.php');
+
+
 
 ?>

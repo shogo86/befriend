@@ -26,29 +26,16 @@ if ($fbLogin->isLoggedIn()) {
 
 }
 
-//データの受け取り
-$main = $_POST['main'];
-$sub = $_POST['sub'];
-
-//picture_1の登録を行う
-$picture = 'http://graph.facebook.com/'.$fb_user_id.'/picture?width=500&height=500';
-
-//SQLを使ってデータの追加
-$sql='UPDATE users SET
-      main_language=?,
-      sub_language=?,
-      picture_1 = ?
-      WHERE fb_user_id=?';
-$stmt=$dbh->prepare($sql);
-$data[]=$main;
-$data[]=$sub;
-$data[]=$picture;
-$data[]=$fb_user_id;
-$stmt->execute($data);
-        
-//DB接続を切断
-$dbh=null;
-        
-goLessonlist();
-
+$email = $_POST['email'];
+/*
+$gender = $_POST['gender'];
+$age = $_POST['age'];
+$main_language = $_POST['main_language'];
+$sub_language = $_POST['sub_language'];
+$hometown = $_POST['hometown'];
+$location = $_POST['location'];
+$works = $_POST['works'];
+$college = $_POST['college'];
+$hobby = $_POST['hobby'];
+*/
 ?>

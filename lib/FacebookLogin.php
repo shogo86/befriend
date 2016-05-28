@@ -22,7 +22,7 @@ class FacebookLogin {
   public function login() {
       //もしログインしていたら登録画面に飛ばす
       if ($this->isLoggedIn()) {
-          header('Location: http://' . $_SERVER['HTTP_HOST']. '/graduation/user_entry.php');
+          header('Location: http://' . $_SERVER['HTTP_HOST']. '/user_entry.php');
       }
 
       //facebookログインに飛ばす
@@ -56,13 +56,13 @@ class FacebookLogin {
             }
         }
           $this->_save($accessToken);
-          header('Location: http://' . $_SERVER['HTTP_HOST']. '/graduation/user_entry.php');
+          header('Location: http://' . $_SERVER['HTTP_HOST']. '/user_entry.php');
           //キャンセルが押された場合にホーム場面に飛ばす
         } elseif ($helper->getError()) {
           goHome();
         } else {
           //permissionの設定
-          $permissions = ['email', 'user_posts '];
+          $permissions = ['email', 'user_posts'];
           $loginUrl = $helper->getLoginUrl(CALLBACK_URL, $permissions);
           //ログイン画面に飛ばす
           header('Location: ' . $loginUrl);

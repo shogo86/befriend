@@ -128,41 +128,17 @@
             </div>
         </div>
     </section>
-    <section class="login" id="login">
-        <h2 class="heading">ログイン</h2>
-        <form class="contact-form" method="post" action="login_check.php">
-            <input type="text" name="email" placeholder="メールアドレス">
-            <input type="password" name="pass" placeholder="パスワード">
-            <input type="submit" value="SEND">
-        </form>
-    </section>
-
-    <section class="contact" id="contact">
-        <h2 class="heading">新規登録</h2>
-        <form class="contact-form" method="post" action="entry_check.php">
-            <input type="text" name="name" placeholder="お名前">
-            <input type="text" name="email" placeholder="メールアドレス">
-            <input type="password" name="pass" placeholder="パスワード">
-            <input type="password" name="pass2" placeholder="パスワード確認">
-            <select name="main">
-                <option value="0">得意な言語を選択してください</option>
-                <option value="1">日本語</option>
-                <option value="2">英語</option>
-                <option value="3">中国語</option>
-            </select>
-            <select name="sub">
-                <option value="0">学びたい言語を選択してください</option>
-                <option value="1">日本語</option>
-                <option value="2">英語</option>
-                <option value="3">中国語</option>
-            </select>
-            <input type="submit" value="SEND">
-        </form>
+    <section class="last-message">
+        
     </section>
     <footer class="footer">
-        © sample site
-    </footer>
-    <script src="lib/placeholders.min.js"></script>
+            <ul class="horizontal-list">
+                <li class="horizontal-item"><a href="#">ABOUT US</a></li>
+                <li class="horizontal-item"><a href="#">利用規約</a></li>
+                <li class="horizontal-item"><a href="#">お問い合わせ</a></li>
+            </ul>
+            <p class="copyright">Copyright © 2016 Befriend</p>
+        </footer>
     
 </body>
 </html>
