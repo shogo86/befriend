@@ -41,7 +41,10 @@
                 padding: 10px 12px;
                 background: url('../images/bg-slash.gif');
                 letter-spacing: 1px;
-                font-size: 1.6rem;
+                /*font-size: 1.6rem;*/
+                font-size: 25px;
+                font-weight: bold;
+                text-align: center;
             }
             
             .hidden {
@@ -83,6 +86,10 @@
                 padding-right: 300px;
                 padding-left: 250px;
             }
+
+            .global-nav a::hover{text-decoration:none;}
+
+            .global-nav li:hover{background-color:#47a89c;} 
             
             .global-nav .nav-item {
                 display: inline-block;
@@ -637,7 +644,7 @@
             }
             
             .horizontal-list {
-                width: 970px;
+                width: 100%px;
                 margin: 0 auto;
                 text-align: right;
                 font-size: 0;
@@ -675,8 +682,9 @@
                 bottom: 0;
                 border: 1px solid #DDD;
                 background-color: rgb(15,153,214);
-                padding: 15px 124px;
+                padding: 15px 0px 15px;
                 margin-top: 350px;
+                width: 100%;
             }
             /* --------------------------------
 
@@ -684,6 +692,7 @@
 
 .contact{
     padding-top: 100px;
+    padding-bottom: 50px;
     background-color: #F3F3F3;
 }
 
@@ -691,6 +700,74 @@
     background-color: #fff;
     margin: 30px 150px 30px 150px;
     border-radius: 8px;
+    padding-bottom: 30px;
+}
+
+.contact .title_text {
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align:middle;
+}
+
+.contact .event_title {
+    display: inline;
+    height: 50px;
+    vertical-align:middle;
+}
+
+.contact .persons_text {
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align:middle;
+}
+
+.contact .event_persons {
+    display: inline;
+    height: 50px;
+    vertical-align:middle;
+    font-size: 15px;
+    color: #999999;
+    text-align: center;
+}
+
+.contact .picture_text {
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 110px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align:middle;
+}
+
+.contact .event_picture {
+    display: inline;
+    height: 50px;
+    vertical-align:middle;
+}
+
+.contact img {
+    max-height: 100px;
+    width: auto;
+    display: inline;
+    vertical-align:middle;
 }
 
 .contact .day_text{
@@ -703,6 +780,7 @@
     line-height: 50px;
     font-size: 15px;
     font-weight: bold;
+    vertical-align:middle;
 }
 
 .contact .day{
@@ -711,6 +789,7 @@
     height: 40px;
     font-size: 15px;
     color: #999999;
+    vertical-align:middle;
 }
 
 .contact .time_text{
@@ -723,10 +802,12 @@
     line-height: 50px;
     font-size: 15px;
     font-weight: bold;
+    vertical-align:middle;
 }
 
 .contact .time{
     display: inline;
+    vertical-align:middle;
 }
 
 .contact .lesson_time{
@@ -739,6 +820,7 @@
     line-height: 50px;
     font-size: 15px;
     font-weight: bold;
+    vertical-align:middle;
 }
 
 .contact .place_text{
@@ -746,19 +828,59 @@
     margin: 10px 10px 10px 10px;
     background-color: #F3F3F3;
     width: 144px;
-    height: 200px;
+    height: 50px;
     text-align: center;
     line-height: 50px;
     font-size: 15px;
     font-weight: bold;
+    vertical-align:middle;
 }
 
 .contact .state{
     display: inline;
+    vertical-align:middle;
+}
+
+.contact .street_text {
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align:middle;
 }
 
 .contact .street{
     display: inline;
+    vertical-align:middle;
+    height: 50px;
+}
+
+.contact .detail_all {
+    
+}
+
+.contact .detail_text {
+    display:inline-block;
+    margin: 10px 10px 10px 10px;
+    background-color: #F3F3F3;
+    width: 144px;
+    height: 150px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    vertical-align:middle;
+}
+
+.contact .detail{
+    display: inline;
+    height: 150px;
+    vertical-align:middle;
 }
 
 .contact .select{
@@ -767,7 +889,17 @@
     
 }
 
-.contact .send{
+.submit_button{
+    margin: 20px auto 0px;
+    display: block;
+    height: 60px;
+    width: 300px;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: rgb(15,153,214);
+    color: #fff;
+    border-radius: 30px;
+    border-style: none;
 }
 
 /*----------マイページ---------------------*/
@@ -992,6 +1124,66 @@
     
 }
 
+
+/*---------user list-----------------*/
+
+.article-box .list_profile{
+                border: thin #E9EBEE solid;
+                padding: 5px 0 5px;
+                }
+
+
+
+/*-------mobile-------------*/
+
+
+@media (max-width: 768px) {
+        body {
+            font-size: 1.3rem;
+            max-width: 100%;
+        }
+        img {
+            max-width: 100%;
+        }
+        #header .befriend {
+            display: none;
+        }
+        #header .name {
+            display: none;
+        }
+        #header .name{
+            display: none;
+        }
+        #header .image{
+            display: none;
+        }
+        .global-nav {
+            padding: 0px;
+        
+        }
+        #header .lesson_entry {
+            display: block;
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            width: 100px;
+            height: 40px;
+            padding-top: 13px;
+            padding-left: 12px;
+            background-color: #FF8A07;
+        }
+         .wrapper {
+            width: 100%;
+            margin: 0px;
+            padding: 80px auto 0px;
+        }
+    
+        .article-box {
+            float: none;
+            text-align: center;
+            margin: 10px auto;
+        }
+}
 
 /*
  * challenge

@@ -47,6 +47,7 @@ $sql ='SELECT
      ON
        lesson_entry.fb_user_id = users.fb_user_id
      WHERE lesson_entry.fb_user_id <> ?
+     AND lesson_entry.day >= NOW()
      ';
 
 $stmt = $dbh->prepare($sql);
@@ -65,6 +66,7 @@ $dbh = null;
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
         <title>レッスンを探す</title>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/lesson_list.css">
@@ -78,7 +80,7 @@ $dbh = null;
                 <ul>
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
                     <li class="nav-item"><a href="user_list.php">ユーザー検索</a></li>
-                    <li class="nav-item"><a href="#">イベント検索</a></li>
+                    <li class="nav-item"><a href="event_list.php">イベント検索</a></li>
                     <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
             </div>
@@ -133,13 +135,18 @@ $dbh = null;
                         $time_count = ($hour * 60 + $minute_change + $time_change) / 60;
                         
                         $time_end = explode('.',$time_count);
+                        
                         //終了の時
                         $time_end_hour = $time_end[0];
-                        //終了の分の計算
+                        //終了の分の計算。小数点が存在する場合に分数に置き換える
+                        if(isset($time_end[1])){
                         if($time_end[1] < 10){
                             $time_end_minute = $time_end[1] * 0.1 * 60;
                         } else {
                             $time_end_minute = $time_end[1] * 0.01 * 60;
+                        }} else {
+                            //小数点が存在しない場合は00とする
+                            $time_end_minute = '00';
                         };
                         
                         //分が0の場合は00と表記する

@@ -45,6 +45,7 @@ $dbh = null;
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
         <title>レッスンを探す</title>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/lesson_list.css">
@@ -164,14 +165,17 @@ $dbh = null;
                         print '<a href =user_profile.php?fb_user_id='.$fb_other_id .'><img class="image" src="http://graph.facebook.com/'.$fb_other_id .'/picture?width=320&height=320"></a>';
                         print '<p class="desc">'.$fb_name.'</p>';
                         print '<p class="desc">'.$main_jp.' > '.$sub_jp. '</p>';
-                        print '<p class="desc">'.$gender_jp.'</p>';
-                        print '<p class="desc">'.$age.'</p>';
-                        print '<p class="desc">'.$hometown.'</p>';
-                        print '<p class="desc">'.$location.'</p>';
                         print '</div>';
+                        print '<div class="list_profile">';
+                        print '<p class="desc">'.'性別    '.$gender_jp.'</p>';
+                        print '<p class="desc">'.'年齢    '.$age.'</p>';
                         print '</div>';
-                        
-                    
+                        //print '<div class="list_profile">';
+                        print '<p class="desc">'.'出身国  '.$hometown.'</p>';
+                        print '<p class="desc">'.'所在地   '.$location.'</p>';
+                        //print '</div>';
+                        print '<a class="btn" href='.$fb_link.'>facebookで友達になる</a>';
+                        print '</div>';
                         
                     }
                     

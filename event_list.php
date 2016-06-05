@@ -26,6 +26,40 @@ if ($fbLogin->isLoggedIn()) {
 
 }
 
+$sql ='SELECT
+       event_entry.id,
+       event_entry.fb_user_id,
+       event_entry.title,
+       event_entry.persons,
+       event_entry.day,
+       event_entry.hour,
+       event_entry.minute,
+       event_entry.time,
+       event_entry.state,
+       event_entry.city,
+       event_entry.street,
+       event_entry.detail,
+       users.fb_name,
+       users.main_language,
+       users.sub_language
+     FROM 
+       event_entry
+     LEFT JOIN
+       users
+     ON
+       event_entry.fb_user_id = users.fb_user_id
+     WHERE event_entry.fb_user_id <> ?
+     AND event_entry.day >= NOW()
+     ';
+
+$stmt = $dbh->prepare($sql);
+$data[] = $fb_user_id;
+
+//SQLの実行
+$stmt->execute($data);
+
+$dbh = null;
+
 ?>
 
 
@@ -34,6 +68,7 @@ if ($fbLogin->isLoggedIn()) {
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
         <title>レッスンを探す</title>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/lesson_list.css">
@@ -46,9 +81,8 @@ if ($fbLogin->isLoggedIn()) {
             <div class="global-nav">
                 <ul>
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
-                    <li class="nav-item"><a href="#">ユーザー検索</a></li>
+                    <li class="nav-item"><a href="user_list.php">ユーザー検索</a></li>
                     <li class="nav-item"><a href="#">イベント検索</a></li>
-                    <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
             </div>
             <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
@@ -58,51 +92,12 @@ if ($fbLogin->isLoggedIn()) {
         </header>
         <div class="wrapper clearfix">
             <main class="main">
-        
-                <ul class = "mypage_gnav">
-                    <li><a href="mypage.php">レッスンを承認する</a></li>
-                    <li><a href="mypage_lesson_plans.php">参加予定のレッスン</a></li>
-                    <li><a href="mypage_lesson_past.php">参加済みのレッスン</a></li>
-                    <li><a href="mypage_lesson_all.php">登録済みのレッスン</a></li>
-                    <li><a href="">メッセージ</a></li>
-                    <li><a href="mypage_profile.php">プロフィール</a></li>
-                </ul>
-                
-                <div class="mypage_lesson">
-                <?php
-                
-                $sql = 'SELECT
-                            lesson_entry.id,
-                            lesson_entry.fb_user_id,
-                            lesson_entry.day,
-                            lesson_entry.hour,
-                            lesson_entry.minute,
-                            lesson_entry.time,
-                            lesson_entry.state,
-                            lesson_entry.city,
-                            lesson_entry.street,
-                            lesson_entry.detail,
-                            users.fb_name,
-                            users.main_language,
-                            users.sub_language
-                        FROM 
-                            lesson_entry
-                        LEFT JOIN
-                            users
-                        ON
-                            lesson_entry.fb_user_id = users.fb_user_id
-                        WHERE 
-                            lesson_entry.fb_user_id = ?
-                             AND lesson_entry.day >= NOW()
-                ';
-                $stmt = $dbh->prepare($sql);
-                $data[] = $fb_user_id;
-                $stmt->execute($data);
-                
-                
-                
-                //レッスン情報の表示
-                while(true)
+                <h2 class="hidden">ARTICLES</h2>
+                <div class="clearfix">
+                    
+                    <?php
+                    
+                    while(true)
                     {
                         $rec = $stmt->fetch(PDO::FETCH_ASSOC);
                         
@@ -110,21 +105,23 @@ if ($fbLogin->isLoggedIn()) {
                         {
                             break;
                         }
-                    $lesson_entry_id = $rec['id'];
-                    $lesson_entry_fbuserid = $rec['fb_user_id'];
-                    $day = $rec['day'];
-                    $hour = $rec['hour'];
-                    $minute = $rec['minute'];
-                    $time = $rec['time'];
-                    $state = $rec['state'];
-                    $city = $rec['city'];
-                    $street = $rec['street'];
-                    $detail = $rec['detail'];
-                    $entry_user_name = $rec['fb_name'];
-                    $main = $rec['main_language'];
-                    $sub = $rec['sub_language'];
-                    
-                    $minute_change=minute($minute);
+                        $event_entry_id = $rec['id'];
+                        $event_entry_fbuserid = $rec['fb_user_id'];
+                        $title = $rec['title'];
+                        $persons = $rec['persons'];
+                        $day = $rec['day'];
+                        $hour = $rec['hour'];
+                        $minute = $rec['minute'];
+                        $time = $rec['time'];
+                        $state = $rec['state'];
+                        $city = $rec['city'];
+                        $street = $rec['street'];
+                        $detail = $rec['detail'];
+                        $entry_user_name = $rec['fb_name'];
+                        $main = $rec['main_language'];
+                        $sub = $rec['sub_language'];
+                        
+                        $minute_change=minute($minute);
                         $time_change=time_change($time);
                         $main_jp=main($main);
                         $sub_jp=sub($sub);
@@ -141,8 +138,7 @@ if ($fbLogin->isLoggedIn()) {
                         $time_count = ($hour * 60 + $minute_change + $time_change) / 60;
                         
                         $time_end = explode('.',$time_count);
-                        //var_dump($time_end);
-                        //exit;
+                        
                         
                         //終了の時
                         $time_end_hour = $time_end[0];
@@ -166,9 +162,10 @@ if ($fbLogin->isLoggedIn()) {
                             $minute_change = '00';
                         };
                         
+                        /*
                         print '<div class="article-box">';
                         print '<div class="profile">';
-                        print '<img class="image" src="http://graph.facebook.com/'.$lesson_entry_fbuserid.'/picture?width=320&height=320">';
+                        print '<a href =user_profile.php?fb_user_id='.$lesson_entry_fbuserid.'><img class="image" src="http://graph.facebook.com/'.$lesson_entry_fbuserid.'/picture?width=320&height=320"></a>';
                         print '<p class="desc">'.$entry_user_name.'</p>';
                         print '<p class="desc">'.$main_jp.' > '.$sub_jp. '</p>';
                         print '</div>';
@@ -180,25 +177,28 @@ if ($fbLogin->isLoggedIn()) {
                         print '<p class="desc">'.$state_jp.'</p>';
                         print '<p class="desc">'.$street.'</p>';
                         print '</div>';
-                        print "<a class='btn' href='lesson_join_agree_done.php?lesson_entry_id={$lesson_entry_id}&lesson_join_fbuserid={$lesson_entry_fbuserid}'>削除する</a>";
+                        print "<a class='btn' href='lesson_request_confirm.php?lesson_entry_id={$lesson_entry_id}&lesson_entry_fbuserid={$lesson_entry_fbuserid}'>参加する</a>";
                         print '</div>';
+                        
+                    */
+                        
+                    }
                     
-                    
-                    
-                }
-                ?>
+                    ?>
+
                 </div>
-                
+
+
             </main>
         </div>
         <footer class="footer">
             <ul class="horizontal-list">
-                <li class="horizontal-item"><a href="#">ABOUT ME</a></li>
-                <li class="horizontal-item"><a href="#">SITE MAP</a></li>
+                <li class="horizontal-item"><a href="#">ABOUT US</a></li>
+                <li class="horizontal-item"><a href="#">利用規約</a></li>
                 <li class="horizontal-item"><a href="#">CONTACT</a></li>
                 <li class="horizontal-item"><a href="logout.php">ログアウト</a></li>
             </ul>
-            <p class="copyright">Copyright © 2015 SAMPLE SITE</p>
+            <p class="copyright">Copyright © 2016 Befriend</p>
         </footer>
     </body>
 

@@ -48,39 +48,42 @@ $lesson_entry_fbuserid = $_GET['lesson_entry_fbuserid'];
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
         <title>レッスンを探す</title>
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/lesson_list.css">
+        <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     </head>
 
     <body>
 
-        <header class="header">
-            <nav class="global-nav">
+        <header id="header">
+            <div class="global-nav">
                 <ul>
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
-                    <li class="nav-item"><a href="lesson_entry.php">LESSON登録</a></li>
+                    <li class="nav-item"><a href="user_list.php">ユーザー検索</a></li>
                     <li class="nav-item"><a href="#">イベント検索</a></li>
-                    <li class="nav-item"><a href="mypage.php">MYPAGE</a></li>
                 </ul>
-            </nav>
+            </div>
+            <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
+            <p class="name"><a href="mypage.php"><?= h($me->fb_name); ?></a></p>
+            <p class="lesson_entry"><a href="lesson_entry.php">レッスン登録</a></p>
+            <p class="befriend"><a href="lesson_list.php">Befriend</a></p>
         </header>
-
-
-
-    <?php print 'リクエストを送りました。 <br />'; ?>
-    
+        <div class="wrapper clearfix">
+            <main class="main">
+              <?php print 'リクエストを送りました。 <br />'; ?>  
+            </main>
+        </div>
         <footer class="footer">
             <ul class="horizontal-list">
-                <li class="horizontal-item"><a href="#">ABOUT ME</a></li>
-                <li class="horizontal-item"><a href="#">SITE MAP</a></li>
-                <li class="horizontal-item"><a href="#">SNS</a></li>
+                <li class="horizontal-item"><a href="#">ABOUT US</a></li>
+                <li class="horizontal-item"><a href="#">利用規約</a></li>
                 <li class="horizontal-item"><a href="#">CONTACT</a></li>
+                <li class="horizontal-item"><a href="logout.php">ログアウト</a></li>
             </ul>
-            <p class="copyright">Copyright © 2015 SAMPLE SITE</p>
+            <p class="copyright">Copyright © 2016 Befriend</p>
         </footer>
-        
-
 </body>
 
 </html>

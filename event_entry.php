@@ -53,7 +53,6 @@ if ($fbLogin->isLoggedIn()) {
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
                     <li class="nav-item"><a href="#">ユーザー検索</a></li>
                     <li class="nav-item"><a href="#">イベント検索</a></li>
-                    <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
             </div>
             <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
@@ -63,9 +62,23 @@ if ($fbLogin->isLoggedIn()) {
         </header>
 
         <section class="contact" id="contact">
-            <h2 class="heading">レッスン登録</h2>
-            <form class="contact-form" method="post" action="lesson_entry_done.php">
-                <div class="day_all">
+            <h2 class="heading">イベント登録</h2>
+            <form class="contact-form" method="post" action="event_entry_done.php" enctype="multipart/form-data">                
+                <p class="title_text">イベント名</p>
+                <textarea name="title" rows="1" cols="80" placeholder="イベント名の記入をしてください" class="event_title" required ></textarea>
+                <div class="detail_all">
+                <p class="detail_text">イベント詳細</p>
+                <textarea name="detail" rows="5" cols="80" placeholder="詳細の記入をしてください" class="detail"></textarea>
+                </div>
+                <div class="persons_all">
+                <p class="persons_text">募集人数</p>
+                <input type="number" name="persons" min="2" class="event_persons" required>
+                </div>
+                <p class="picture_text">写真</p>
+                <div class="event_picture">
+                <input type="file" name="picture" required>
+                </div>
+                <div class="day_all">    
                 <p class="day_text">日付</p>
                 <input type="date" name="day" min="2016-05-01" required class="day">
                 </div>
@@ -108,11 +121,13 @@ if ($fbLogin->isLoggedIn()) {
                 </select>
                     </div>
                 <div class="lesson">
-                <p class="lesson_time">レッスン時間</p>    
+                <p class="lesson_time">イベント時間</p>    
                 <select name="time" required>
-                    <option value="">レッスン時間</option>
+                    <option value="">イベント時間</option>
                     <option value="1">30分</option>
                     <option value="2">60分</option>
+                    <option value="1">90分</option>
+                    <option value="2">120分</option>
                 </select>
                 </div>
                 </div>
@@ -174,10 +189,6 @@ if ($fbLogin->isLoggedIn()) {
                 <p class="street_text">詳細住所</p>
                 <textarea name="street" rows="2" cols="80" placeholder="詳細の記入をしてください" class="street" required ></textarea>
                 </div>
-                <div class="detail_all">
-                <p class="detail_text">その他</p>
-                <textarea name="detail" rows="5" cols="80" placeholder="詳細の記入をしてください" class="detail"></textarea>
-                </div>
                 <input type="submit" value="上記の内容で登録する" class="submit_button">
             </form>
         </section>
@@ -191,6 +202,47 @@ if ($fbLogin->isLoggedIn()) {
             <p class="copyright">Copyright © 2016 Befriend</p>
         </footer>
         <script src="lib/placeholders.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script>
+            $(function(){
+        var setFileInput = $('.event_picture');
+ 
+        setFileInput.each(function(){
+        var selfFile = $(this),
+        selfInput = $(this).find('input[type=file]');
+ 
+        selfInput.change(function(){
+        var file = $(this).prop('files')[0],
+        fileRdr = new FileReader(),
+        selfImg = selfFile.find('.imgView');
+ 
+        if(!this.files.length){
+            if(0 < selfImg.size()){
+                   selfImg.remove();
+                return;
+            }
+        } else {
+            if(file.type.match('image.*')){
+                if(!(0 < selfImg.size())){
+                    selfFile.append('<img alt="" class="imgView">');
+                }
+                var prevElm = selfFile.find('.imgView');
+                fileRdr.onload = function() {
+                        prevElm.attr('src', fileRdr.result);
+                    }
+                    fileRdr.readAsDataURL(file);
+                } else {
+                    if(0 < selfImg.size()){
+                        selfImg.remove();
+                        return;
+                        }
+                    }
+                }
+            });
+        });
+        });
+            
+        </script>
     </body>
 
     </html>
