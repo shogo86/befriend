@@ -46,11 +46,19 @@ $sql ='SELECT
        users
      ON
        lesson_entry.fb_user_id = users.fb_user_id
+     LEFT JOIN
+       lesson_join
+     ON
+       lesson_entry.id = lesson_join.lesson_entry_id
      WHERE lesson_entry.fb_user_id <> ?
      AND lesson_entry.day >= NOW()
+     AND (lesson_join.fb_user_id <> ? OR lesson_join.fb_user_id IS NULL)
+     GROUP BY lesson_entry.id
+     ORDER BY lesson_entry.day
      ';
 
 $stmt = $dbh->prepare($sql);
+$data[] = $fb_user_id;
 $data[] = $fb_user_id;
 
 //SQLの実行
@@ -84,8 +92,10 @@ $dbh = null;
                     <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
             </div>
+            <div class="nav-profile">
             <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
             <p class="name"><a href="mypage.php"><?= h($me->fb_name); ?></a></p>
+            </div>
             <p class="lesson_entry"><a href="lesson_entry.php">レッスン登録</a></p>
             <p class="befriend"><a href="lesson_list.php">Befriend</a></p>
         </header>

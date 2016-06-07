@@ -246,6 +246,10 @@ function state_jp($state){
 
 //得意な言語の関数（日本語表示）
 function main($main){
+    if($main=='')
+    {
+        $main_jp='未入力';
+    }
     if($main==1)
     {
         $main_jp='日本語';
@@ -257,7 +261,7 @@ function main($main){
     if($main==3)
     {
         $main_jp='中国語';
-    }
+    } 
     return($main_jp);
 }
 
@@ -283,6 +287,10 @@ function gender($gender){
 
 //学びたい言語の関数（日本語表示）
 function sub($sub){
+    if($sub=='')
+    {
+        $sub_jp='未入力';
+    }
     if($sub==1)
     {
         $sub_jp='日本語';

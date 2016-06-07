@@ -51,13 +51,15 @@ if ($fbLogin->isLoggedIn()) {
             <div class="global-nav">
                 <ul>
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
-                    <li class="nav-item"><a href="#">ユーザー検索</a></li>
-                    <li class="nav-item"><a href="#">イベント検索</a></li>
+                    <li class="nav-item"><a href="user_list.php">ユーザー検索</a></li>
+                    <li class="nav-item"><a href="event_list.php">イベント検索</a></li>
                     <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
             </div>
+            <div class="nav-profile">
             <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
             <p class="name"><a href="mypage.php"><?= h($me->fb_name); ?></a></p>
+            </div>
             <p class="lesson_entry"><a href="lesson_entry.php">レッスン登録</a></p>
             <p class="befriend"><a href="lesson_list.php">Befriend</a></p>
         </header>

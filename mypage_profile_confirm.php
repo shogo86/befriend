@@ -70,8 +70,10 @@ $gender_jp=gender($gender);
                     <!--<li class="nav-item"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></li>-->
                 </ul>
             </div>
+            <div class="nav-profile">
             <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
             <p class="name"><a href="mypage.php"><?= h($me->fb_name); ?></a></p>
+            </div>
             <p class="lesson_entry"><a href="lesson_entry.php">レッスン登録</a></p>
             <p class="befriend"><a href="lesson_list.php">Befriend</a></p>
         </header>

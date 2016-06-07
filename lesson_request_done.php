@@ -40,9 +40,11 @@ $lesson_entry_fbuserid = $_GET['lesson_entry_fbuserid'];
         //DB接続を切断
         $dbh=null;
 
+goLessonlist();
 
 ?>
 
+<!--
 <!DOCTYPE html>
     <html lang="ja">
 
@@ -87,3 +89,4 @@ $lesson_entry_fbuserid = $_GET['lesson_entry_fbuserid'];
 </body>
 
 </html>
+-->

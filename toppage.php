@@ -12,7 +12,7 @@ $ua = new UserAgent();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-    <title>BeFriends</title>
+    <title>BeFriend</title>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:700,400">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/normalize.css">
@@ -34,7 +34,7 @@ $ua = new UserAgent();
         <div id="gloval-header" class="ex-gloval-header">
             <p class="befriend">Befriend</p>
             <a href="login.php" class="facebook_start">Facebookでログイン</a>
-            <a href="" class="language_change">English</a>
+            <a href="./EN/toppage.php" class="language_change">English</a>
             <!--
             <ul class="language">
                 <li class=language_single>

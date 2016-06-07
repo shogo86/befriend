@@ -30,6 +30,7 @@ $sql ='SELECT
        event_entry.id,
        event_entry.fb_user_id,
        event_entry.title,
+       event_entry.picture_1,
        event_entry.persons,
        event_entry.day,
        event_entry.hour,
@@ -50,6 +51,7 @@ $sql ='SELECT
        event_entry.fb_user_id = users.fb_user_id
      WHERE event_entry.fb_user_id <> ?
      AND event_entry.day >= NOW()
+     ORDER BY event_entry.day
      ';
 
 $stmt = $dbh->prepare($sql);
@@ -82,12 +84,14 @@ $dbh = null;
                 <ul>
                     <li class="nav-item active"><a href="lesson_list.php">LESSON一覧</a></li>
                     <li class="nav-item"><a href="user_list.php">ユーザー検索</a></li>
-                    <li class="nav-item"><a href="#">イベント検索</a></li>
+                    <li class="nav-item"><a href="event_list.php">イベント検索</a></li>
                 </ul>
             </div>
+            <div class="nav-profile">
             <p class="image"><a href="mypage.php"><img src="http://graph.facebook.com/<?= h($me->fb_user_id); ?>/picture" class="pic"></a></p>
             <p class="name"><a href="mypage.php"><?= h($me->fb_name); ?></a></p>
-            <p class="lesson_entry"><a href="lesson_entry.php">レッスン登録</a></p>
+            </div>
+            <p class="lesson_entry"><a href="event_entry.php">イベント登録</a></p>
             <p class="befriend"><a href="lesson_list.php">Befriend</a></p>
         </header>
         <div class="wrapper clearfix">
@@ -108,6 +112,7 @@ $dbh = null;
                         $event_entry_id = $rec['id'];
                         $event_entry_fbuserid = $rec['fb_user_id'];
                         $title = $rec['title'];
+                        $picture = $rec['picture_1'];
                         $persons = $rec['persons'];
                         $day = $rec['day'];
                         $hour = $rec['hour'];
@@ -162,14 +167,14 @@ $dbh = null;
                             $minute_change = '00';
                         };
                         
-                        /*
+                        
                         print '<div class="article-box">';
                         print '<div class="profile">';
-                        print '<a href =user_profile.php?fb_user_id='.$lesson_entry_fbuserid.'><img class="image" src="http://graph.facebook.com/'.$lesson_entry_fbuserid.'/picture?width=320&height=320"></a>';
-                        print '<p class="desc">'.$entry_user_name.'</p>';
-                        print '<p class="desc">'.$main_jp.' > '.$sub_jp. '</p>';
+                        print '<a href =""><img class="event_image" src="./picture/'.$picture.'"></a>';
+                        print '<p class="desc_title">'.$title.'</p>';
+                        print '<p class="desc_persons">'.$persons.'人</p>';
                         print '</div>';
-                        print '<div class="time">';
+                        print '<div class="event_time">';
                         print '<p class="desc">'.$date.'（'.$week[$w].'）'.'</p>';
                         print '<p class="desc">'.$hour.'時'.$minute_change.'分'.' 〜 '.$time_end_hour.'時'.$time_end_minute.'分'.'</p>';
                         print '</div>';
@@ -177,10 +182,10 @@ $dbh = null;
                         print '<p class="desc">'.$state_jp.'</p>';
                         print '<p class="desc">'.$street.'</p>';
                         print '</div>';
-                        print "<a class='btn' href='lesson_request_confirm.php?lesson_entry_id={$lesson_entry_id}&lesson_entry_fbuserid={$lesson_entry_fbuserid}'>参加する</a>";
+                        print "<a class='btn' href='event_request_confirm.php?event_entry_id={$event_entry_id}&event_entry_fbuserid={$event_entry_fbuserid}'>参加する</a>";
                         print '</div>';
                         
-                    */
+                    
                         
                     }
                     

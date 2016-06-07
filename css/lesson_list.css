@@ -89,7 +89,14 @@
 
             .global-nav a::hover{text-decoration:none;}
 
-            .global-nav li:hover{background-color:#47a89c;} 
+            .global-nav li:hover{
+                background-color:#47a89c;
+                /*
+                background-color:#0787B2;*/
+                border-radius: 10px;
+                height: 28px;
+
+} 
             
             .global-nav .nav-item {
                 display: inline-block;
@@ -123,24 +130,40 @@
             }
 
             #header .image{
+                /*
                 position: absolute;
                 right: 300px;
                 top: 5px;
-    
+                */
             }
+
+#header .nav-profile {
+    position: absolute;
+    right: 200px;
+    top: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    width: 200px;
+}
             
             #header .name{
+                /*
                 position: absolute;
                 right: 200px;
                 top: 25px;
                 color: #fff;
+                */
+                text-align: right;
+                position: relative;
+                right: 10px;
+                top: 15px;
             }
 
             #header .lesson_entry{
                 display: block;
                 position: absolute;
                 top: 10px;
-                right: 30px;
+                right: 50px;
                 width: 100px;
                 height: 40px;
                 padding-top: 13px;
@@ -391,7 +414,7 @@
                 text-align: center;
                 display: block;
                 width: 300px;
-                height: 400px;
+                height: 360px;
                 /*margin-bottom: 30px;*/
                 margin: 0 20px 20px 0;
                 padding: 155px 0px 0;
@@ -480,6 +503,42 @@
                 border: 4px solid #fff;
                 box-shadow: 0 0 3px rgba(120, 120, 120, .35);
             }
+
+            .article-box .event_image {
+                position: absolute;
+                top: 0px;
+                width: 100%;
+                height: 200px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                border: 2px solid #fff;
+            }
+
+.article-box .desc_title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    font-size: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.article-box .event_time{
+    border: thin #E9EBEE solid;
+    padding: 19px 0px 10px;
+}
+
+.article-box .desc_persons{
+    position: absolute;
+    right: 10px;
+    color: #fff;
+    font-size: 20px;
+    text-align: right;
+    font-weight: bold;
+}
+
             /*
             * -------------------------------- * sidemenu * -------------------------------- */
             .sidemenu {
@@ -968,6 +1027,7 @@
     color: #fff;
     background-color: #71c3c8;
     box-shadow: 0 3px 0 #53b7bb;
+    margin-bottom: 15px;
 }
 
 
@@ -1022,8 +1082,9 @@
 }
 
 .profile_text a {
-    color: #8d9399;
+    /*color: #8d9399;
     text-decoration: underline;
+    */
 }
 
 .profile_text .profile_edit {
@@ -1037,6 +1098,29 @@
     background-color: #71c3c8;
     box-shadow: 0 3px 0 #53b7bb;
     margin-left: 20px;
+}
+
+.lesson_text {
+    margin-bottom: 30px;
+}
+
+.profile_text_lesson {
+    
+}
+
+.profile_text .submit_button {
+    margin: 40px auto 0px;
+    display: block;
+    height: 60px;
+    width: 300px;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: rgb(15,153,214);
+    color: #fff;
+    border-radius: 30px;
+    border-style: none;
+    text-align: center;
+    padding-top: 18px;
 }
 
 /*---------profile edit----------------*/
